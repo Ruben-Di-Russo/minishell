@@ -31,6 +31,17 @@ typedef struct s_config
     char    *tmp;
 } t_config;
 
+typedef struct s_cmd
+{
+    char    **cmd_line;
+    char    **cmd_args;
+    char    **cmd_value;
+
+    char    **cmd_parser;
+    int     num_cmd;
+
+} t_cmd;
+
 
 char	**ft_split(char const *s, char c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
