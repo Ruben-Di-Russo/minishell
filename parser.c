@@ -30,17 +30,37 @@ char	*ft_strtrim(char const *s1, char const *set)
 	return (ft_substr(s1, 0, i + 1));
 }
 
-void echo_fill(t_cmd *s_cmd, char *line)
+int echo_fill(t_cmd *t_cmd, char *line, int i)
 {
     int count;
-    (void)s_cmd;
+    char *e;
+    char *value;
+    value = "-n";
+    e = "echo";
     count = 0;
     while(line[0] != ' ')
     {
         line++;
     }
     line++;
+    t_cmd->cmd_line[i] = ft_strdup(e);
+    if (line[count] == '-')
+    {
+        line++;
+        line++;
+        line++;
+        while(line[count] == ' '){
+            line++;
+        }
+        t_cmd->cmd_args[i] = ft_strdup(value);
+    }
+    else
+    {
+        t_cmd->cmd_args[i] = NULL;
+    }
+    t_cmd->cmd_value[i] = ft_strdup(line);
     //line++;
+    return(1);
 }
 
 char **cmd_parser(t_cmd *razzo, char *line)
@@ -83,6 +103,7 @@ char **cmd_parser(t_cmd *razzo, char *line)
     razzo->num_cmd++;
     return(razzo->cmd_parser);
 }
+
 void cmd_fill(t_cmd *tcmd ,char **cmd){
 (void)cmd;
 (void)tcmd;
@@ -104,7 +125,7 @@ while(tcmd->cmd_parser[i])
     tmp = ft_strdup(tcmd->cmd_parser[i]);
     if(tmp[0] == 'e' && tmp[1] == 'c')
     {
-        echo_fill(tcmd, tmp);
+        echo_fill(tcmd, tmp, i);
         i++;
         continue;
     }
@@ -122,8 +143,11 @@ while(tcmd->cmd_parser[i])
 }
     ft_argv_print(tcmd->cmd_line);
     ft_argv_print(tcmd->cmd_args);
-    ft_argv_print(tcmd->cmd_value);
-    // printf("val:%s \n", tcmd->cmd_value[1]);
+    printf("cmd:%s \n", tcmd->cmd_args[3]);
+    printf("val:%s \n", tcmd->cmd_value[0]);
+    printf("val:%s \n", tcmd->cmd_value[1]);
+    printf("val:%s \n", tcmd->cmd_value[2]);
+    printf("val:%s \n", tcmd->cmd_value[3]);
 //tmp = ft_split(cmd, ' ');
 //ft_argv_print(tmp);
 
@@ -163,7 +187,8 @@ int main(int arc, char **argv, char **envp)
 
     */
     //line = "ls \"philo\" | grep -e time | wc -l | echo \"    'ls ls '  ' '\"   \" ' llllll ' \"";
-    line = "cd dir | ls -l | id -d culo";
+    line = "cd dir | ls -l | id -d            culo | echo -n     'ciao'        ";
+    // line = "echo 'ciao'";
     
     cmd = cmd_parser(&config, line);
     //exe(arc, argv, envp);
