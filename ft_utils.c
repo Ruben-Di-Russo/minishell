@@ -9,10 +9,6 @@ char **builtin_str(void)
     return (str);    
 }
 
-int lsh_num_builtins(char **builtin_str) {
-  return sizeof(builtin_str) / sizeof(char *);
-}
-
 int	ft_strcmp(char *s1, char *s2)
 {
 	while (*s1 != '\0' && *s2 != '\0')
@@ -29,11 +25,11 @@ int	ft_strcmp(char *s1, char *s2)
 	}
 	return (*s1 - *s2);
 }
-void ft_argv_print(char **argv)
+void ft_argv_print(char **argv, char *type)
 {
   int i = 0;
   while (argv[i]){
-    printf("argv print id %d : %s \n", i, argv[i]);
+    printf("%s argv print id %d : %s \n",type, i, argv[i]);
     i++;
   }
 }

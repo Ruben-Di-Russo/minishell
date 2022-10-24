@@ -104,22 +104,22 @@ char **cmd_parser(t_cmd *razzo, char *line)
     return(razzo->cmd_parser);
 }
 
-void cmd_fill(t_cmd *tcmd ,char **cmd){
-(void)cmd;
-(void)tcmd;
+void cmd_fill(t_cmd *tcmd){
+// (void)cmd;
+// (void)tcmd;
 char *tmp;
 char **tmp2;
 int i;
 int x;
 int y;
 
+// printf("ciao");
 y = 0;
 x = 0;
 i = 0;
-tcmd->cmd_line = malloc(100);
-tcmd->cmd_args = malloc(100);
-tcmd->cmd_value = malloc(100);
-
+tcmd->cmd_line = malloc(10000);
+tcmd->cmd_args = malloc(10000);
+tcmd->cmd_value = malloc(10000);
 while(tcmd->cmd_parser[i])
 {
     tmp = ft_strdup(tcmd->cmd_parser[i]);
@@ -130,8 +130,17 @@ while(tcmd->cmd_parser[i])
         continue;
     }
     tmp2 = ft_split(tmp, ' ');
-    // printf("tmp2 : %s\n", tmp2[2]);
+    if(tmp2[1] == NULL)
+    {
+        tcmd->cmd_line[i] = ft_strdup(tmp2[0]);
+        tcmd->cmd_args[i] = NULL;
+        tcmd->cmd_value[i] = NULL;
+        i++;
+        break;
+    }
     tcmd->cmd_line[i] = ft_strdup(tmp2[0]);
+    // printf("%s \n", tcmd->cmd_line[i]);
+    // printf("tmp2 : %s\n", tmp2[2]);
     if(tmp2[1]){
         tcmd->cmd_args[i] = ft_strdup(tmp2[1]);
     }
@@ -141,57 +150,39 @@ while(tcmd->cmd_parser[i])
     }
     i++;
 }
-    ft_argv_print(tcmd->cmd_line);
-    ft_argv_print(tcmd->cmd_args);
-    printf("cmd:%s \n", tcmd->cmd_args[3]);
-    printf("val:%s \n", tcmd->cmd_value[0]);
-    printf("val:%s \n", tcmd->cmd_value[1]);
-    printf("val:%s \n", tcmd->cmd_value[2]);
-    printf("val:%s \n", tcmd->cmd_value[3]);
-//tmp = ft_split(cmd, ' ');
-//ft_argv_print(tmp);
+    // ft_argv_print(tcmd->cmd_line);
+    // ft_argv_print(tcmd->cmd_args);
+    // printf("cmd:%s \n", tcmd->cmd_args[3]);
+    // printf("val:%s \n", tcmd->cmd_value[0]);
+    // printf("val:%s \n", tcmd->cmd_value[1]);
+    // printf("val:%s \n", tcmd->cmd_value[2]);
+    // printf("val:%s \n", tcmd->cmd_value[3]);
+// tmp = ft_split(cmd, ' ');
+// ft_argv_print(tmp);
 
 }
-void exe(int arc, char **argv, char **envp){
-    (void)arc;
-    (void)argv;
-    char *args[2];
-    char *cmd[2];
-    //args[0] = "/bin/ls";
-    cmd[0] = "/bin/ls";
-    args[0] = "-l";
-    args[1] = NULL;
 
-    char *argss[3];
-    //argss[0] = "/usr/bin/wc";
-    cmd[1] = "/usr/bin/grep";
-    argss[0] = "-i";
-    argss[1] = "test";
-    argss[2] = NULL;
-    if (execve(cmd[0], args, envp))
-        printf("error exec pipe 1.\n");
 
-}
-int main(int arc, char **argv, char **envp)
-{
-    (void)arc;
-    (void)argv;
-    (void)envp;
-    t_cmd config;
-    char **cmd;
-    char *line;
-    //line = "          ls     |      grep -e test                    |      wc -l ";
-    /*
-    bash-3.2$ echo "    'ls ls '  ' '"   " ' llllll ' "
-    'ls ls '  ' '  ' llllll ' 
+// int main(int arc, char **argv, char **envp)
+// {
+//     (void)arc;
+//     (void)argv;
+//     (void)envp;
+//     t_cmd config;
+//     char **cmd;
+//     char *line;
+//     //line = "          ls     |      grep -e test                    |      wc -l ";
+//     /*
+//     bash-3.2$ echo "    'ls ls '  ' '"   " ' llllll ' "
+//     'ls ls '  ' '  ' llllll ' 
 
-    */
-    //line = "ls \"philo\" | grep -e time | wc -l | echo \"    'ls ls '  ' '\"   \" ' llllll ' \"";
-    line = "cd dir | ls -l | id -d            culo | echo -n     'ciao'        ";
-    // line = "echo 'ciao'";
+//     // */
+//     line = "ls \"philo\" | grep -e time | wc -l | echo \"    'ls ls '  ' '\"   \" ' llllll ' \"";
+//     // line = "ls";
+//     // line = "echo 'ciao'";
     
-    cmd = cmd_parser(&config, line);
-    //exe(arc, argv, envp);
-    // ft_argv_print(cmd);
-    cmd_fill(&config, cmd);
-}
+//     cmd = cmd_parser(&config, line);
+//     //exe(arc, argv, envp);
+//     // ft_argv_print(cmd);
+//     cmd_fill(&config );
+// }

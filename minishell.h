@@ -15,7 +15,7 @@
 #define DOUBLE_RIGHT_REDIRECTION '>>'
 #define DOUBLE_LEFT_REDIRECTION '<<'
 
-
+/*
 typedef struct s_config
 {
     char    **builtin_cmd;
@@ -30,13 +30,19 @@ typedef struct s_config
     int		stdin_clone;
     char    *tmp;
 } t_config;
+*/
 
 typedef struct s_cmd
 {
+    char    *line;
     char    **cmd_line;
     char    **cmd_args;
     char    **cmd_value;
+    char    **builtin_cmd;
+    int     builtin_len;
+    char    **envp;
 
+    char    *banner;
     char    **cmd_parser;
     int     num_cmd;
 
@@ -55,27 +61,28 @@ char	*ft_strdup(const char *s1);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	*ft_pathfinder(char *cmd, char **envp);
 int	    free_matrix(char **matrix);
-char    *read_line(t_config *config);
+char    *read_line(t_cmd *config);
 
-char    *split_to_line(char **str);
-int     pipe_detector(t_config *config);
 
-int     pipe_detector(t_config *config);
-int     pipe_execute(t_config *config);
 
-int     cmd_execute(t_config *config);
-int     cmd_prepare(t_config *config);
+char **cmd_parser(t_cmd *razzo, char *line);
+void cmd_fill(t_cmd *tcmd );
+int echo_fill(t_cmd *t_cmd, char *line, int i);
+char	*ft_strtrim(char const *s1, char const *set);
+char	*ft_strchr(const char *s, int c);
+
+int     cmd_execute(t_cmd *config);
+int     cmd_prepare(t_cmd *config);
 
 int     cmd_cd(char **args);
 int     cmd_exit(char **args);
 
-void ft_argv_print(char **argv);
-int lsh_num_builtins(char **builtin_str);
+void ft_argv_print(char **argv, char *type);
 int len_num_builtins(char **builtin_str);
 char **builtin_str(void);
 int  builtin_func(char *cmd, char **args);
 
 
-void shell_init(t_config *config, char **envp);
-void shell_loop(t_config *config);
+void shell_init(t_cmd *config, char **envp);
+void shell_loop(t_cmd *config);
 #endif
