@@ -34,9 +34,10 @@ void ft_argv_print(char **argv, char *type)
   }
 }
 int builtin_func(char *cmd, char **args){
-  printf("inside : %s \n ", args[0]);
-  if (ft_strcmp(cmd, "cd") == 0)
+  if (ft_strcmp(cmd, "cd") == 0){
+    // printf("%s args \n", args[0]);
     return (cmd_cd(args));
+  }
   else if (ft_strcmp(cmd, "exit") == 0)
     return (cmd_exit(args));
   return (0);
@@ -117,12 +118,13 @@ int len_num_builtins(char **builtin_str) {
 */
 int cmd_cd(char **args)
 {
-  if (args[1] == NULL) {
-    fprintf(stderr, "lsh: expected argument to \"cd\"\n");
+  // printf("val : %s \n", args[1]);
+  if (args[0] == NULL) {
+    fprintf(stderr, "expected argument to \"cd\"\n");
   } 
   else {
-    if (chdir(args[1]) != 0) {
-      perror("lsh");
+    if (chdir(args[0]) != 0) {
+      perror("shell");
     }
   }
   return 1;

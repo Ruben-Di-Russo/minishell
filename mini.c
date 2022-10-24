@@ -53,7 +53,7 @@ now[x] = ft_strdup(config->cmd_value[i]);
 x++;
 }
 now[x] = NULL;
-printf("%s %s %s %s \n",now [x - 3] ,now[x - 2], now[x - 1], now[x]);
+// printf("%s %s %s %s \n",now [x - 3] ,now[x - 2], now[x - 1], now[x]);
 return(now);
 }
 
@@ -89,7 +89,7 @@ int cmd_prepare(t_cmd *config)
   if (config->cmd_line[0] == NULL) {
     return 1;
   }
-
+//   printf("val arg 0 %s : ", config->cmd_args[0]);
   while(i < config->builtin_len){
       if (ft_strcmp(config->cmd_line[0], config->builtin_cmd[i]) == 0) {
         return (builtin_func(config->builtin_cmd[i], &config->cmd_args[0]));
