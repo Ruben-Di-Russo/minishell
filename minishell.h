@@ -41,10 +41,12 @@ typedef struct s_cmd
     char    **builtin_cmd;
     int     builtin_len;
     char    **envp;
-
+    int     npipe;
     char    *banner;
     char    **cmd_parser;
     int     num_cmd;
+    int		stdout_clone;
+    int		stdin_clone;
 
 } t_cmd;
 
@@ -64,12 +66,15 @@ int	    free_matrix(char **matrix);
 char    *read_line(t_cmd *config);
 
 
-
-char **cmd_parser(t_cmd *razzo, char *line);
-void cmd_fill(t_cmd *tcmd );
-int echo_fill(t_cmd *t_cmd, char *line, int i);
+int     cmd_execute(t_cmd *config);
+char    **cmd_parser(t_cmd *razzo, char *line);
+void    cmd_fill(t_cmd *tcmd );
+int     echo_fill(t_cmd *t_cmd, char *line, int i);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strchr(const char *s, int c);
+int     pipe_execute(t_cmd *config);
+char    **args_build(t_cmd *config, int i);
+int	ft_child_process(t_cmd *config);
 
 int     cmd_execute(t_cmd *config);
 int     cmd_prepare(t_cmd *config);

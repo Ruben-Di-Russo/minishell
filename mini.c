@@ -57,7 +57,7 @@ now[x] = NULL;
 return(now);
 }
 
-int cmd_execute(t_cmd *config){
+int cmd_single(t_cmd *config){
 
 	pid_t pid;
 
@@ -79,6 +79,16 @@ int cmd_execute(t_cmd *config){
 
 }
 
+int cmd_execute(t_cmd *config){
+	printf("pipe n : %d \n", config->npipe);
+	if(config->npipe > 0){
+		return (ft_child_process(config));
+	}
+	else {
+		return (cmd_single(config));
+	}
+	return (0);
+}
 
 
 int cmd_prepare(t_cmd *config)
@@ -101,9 +111,11 @@ int cmd_prepare(t_cmd *config)
 
 void shell_init(t_cmd *config, char **envp){
 	config->envp = envp;
+	config->npipe = 0;
 	config->builtin_cmd = builtin_str();
 	config->builtin_len = len_num_builtins(config->builtin_cmd);
   	config->banner = ft_strcat(getenv("USER"), "@minishell>");
+	
 	
 }
 

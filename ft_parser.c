@@ -73,8 +73,11 @@ char **cmd_parser(t_cmd *razzo, char *line)
     x = 0;
     while(line[x])
     {
-        if (line[x] == '|')
+        if (line[x] == '|'){
             razzo->num_cmd++;
+            if(line[x] == '|')
+                razzo->npipe++;
+        }
         x++;
     }
     razzo->cmd_parser = malloc(sizeof (char*) * (razzo->num_cmd + 1));

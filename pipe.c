@@ -27,10 +27,10 @@ int xpipe_execute(t_config *config, char **envp){
         dup2(ch[1], STDOUT_FILENO);
         if (execve(cmd[0], args, envp))
 			    printf("error exec pipe 1.\n");
-          dup2(config->stdout_clone, STDOUT_FILENO);
-          close(config->stdout_clone);
-          close(ch[1]);
-          exit(0);
+        dup2(config->stdout_clone, STDOUT_FILENO);
+        close(config->stdout_clone);
+        close(ch[1]);
+        exit(0);
     }
 
     child2 = fork();
