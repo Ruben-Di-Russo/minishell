@@ -5,8 +5,11 @@ char *read_line(t_cmd *config)
 {
   char *line;
   line = readline(config->banner);
-  if (line == NULL)
-    return (0);
+  if (!line[0])
+  {
+	while(!line[0])
+	line = readline(config->banner);
+  }
   else
     add_history(line);
     return (line);
@@ -80,9 +83,8 @@ int cmd_single(t_cmd *config){
 }
 
 int cmd_execute(t_cmd *config){
-	printf("pipe n : %d \n", config->npipe);
 	if(config->npipe > 0){
-		return (ft_child_process(config));
+		return (pipe_execute(config));
 	}
 	else {
 		return (cmd_single(config));
@@ -115,6 +117,8 @@ void shell_init(t_cmd *config, char **envp){
 	config->builtin_cmd = builtin_str();
 	config->builtin_len = len_num_builtins(config->builtin_cmd);
   	config->banner = ft_strcat(getenv("USER"), "@minishell>");
+	config->stdout_clone = dup(STDOUT_FILENO);
+	config->stdin_clone = dup(STDIN_FILENO);
 	
 	
 }

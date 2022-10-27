@@ -74,7 +74,7 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strchr(const char *s, int c);
 int     pipe_execute(t_cmd *config);
 char    **args_build(t_cmd *config, int i);
-int	ft_child_process(t_cmd *config);
+int	ft_child_process(t_cmd *config, int i);
 
 int     cmd_execute(t_cmd *config);
 int     cmd_prepare(t_cmd *config);
