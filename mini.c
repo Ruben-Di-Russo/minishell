@@ -83,13 +83,23 @@ int cmd_single(t_cmd *config){
 }
 
 int cmd_execute(t_cmd *config){
+	printf("val of red : %d \n", config->red);
+	printf("val of pipe : %d \n", config->npipe);
 	if(config->npipe > 0){
-		return (pipe_execute(config));
+		pipe_execute(config);
 	}
-	else {
-		return (cmd_single(config));
+	if(config->red > 0){
+		printf("redddddddddddd \n");
+		printf("red dec : %d \n", config->red);
+		printf("last  : %d \n", config->last_cmd_position);
+		single_right(config);
 	}
-	return (0);
+	printf("val of pipe pre single : %d \n", config->npipe);
+	if(config->npipe == 0 && config->red == 0) {
+		printf("singleeeeeeeeeeeeee \n");
+		cmd_single(config);
+	}
+	return (1);
 }
 
 
