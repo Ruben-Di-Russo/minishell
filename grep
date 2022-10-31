@@ -1,0 +1,12 @@
+-rwxr-xr-x  1 mlatifi  2021_rome   1109 Oct 27 15:56 ft_memcpy.c
+-rw-r--r--  1 mlatifi  2021_rome   3829 Oct 31 19:34 ft_parser.c
+-rw-r--r--  1 mlatifi  2021_rome   1574 Oct 31 22:30 ft_pipex.c
+-rw-r--r--  1 mlatifi  2021_rome    355 Oct 31 20:40 ft_red.c
+-rw-r--r--  1 mlatifi  2021_rome    584 Oct 27 15:56 ft_split.c
+-rw-r--r--  1 mlatifi  2021_rome    259 Oct 27 15:56 ft_strcat.c
+-rwxr-xr-x  1 mlatifi  2021_rome   1077 Oct 27 15:56 ft_strdup.c
+-rwxr-xr-x  1 mlatifi  2021_rome    397 Oct 27 15:56 ft_strjoin.c
+-rw-r--r--  1 mlatifi  2021_rome    126 Oct 27 15:56 ft_strlen.c
+-rw-r--r--  1 mlatifi  2021_rome    244 Oct 27 15:56 ft_strncmp.c
+-rw-r--r--  1 mlatifi  2021_rome    438 Oct 27 15:56 ft_substr.c
+-rw-r--r--  1 mlatifi  2021_rome   2666 Oct 31 17:43 ft_utils.c

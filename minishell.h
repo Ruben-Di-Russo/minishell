@@ -62,7 +62,7 @@ void    cmd_fill(t_cmd *config );
 int     echo_fill(t_cmd *config, char *line, int i);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strchr(const char *s, int c);
-void    pipe_execute(t_cmd *config);
+int     pipe_execute(t_cmd *config);
 
 
 void    red_pipe_execute(int file, t_cmd *config);

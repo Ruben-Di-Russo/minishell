@@ -81,22 +81,22 @@ int cmd_execute(t_cmd *config){
 
 	if(config->npipe > 0){
 		if(config->red > 0){	
-			single_right(config);
+			printf("red mode on pip  \n");
+			return (single_right(config));
 		}
-		pipe_execute(config);
+		printf("pipe mode \n");
+		return (pipe_execute(config));
 	}
-	//printf("val of pipe pre single : %d \n", config->npipe);
 	else {
-		cmd_single(config);
 		if(config->red > 0){
-			// printf("redddddddddddd \n");
-			// printf("last id  : %d \n", config->last_cmd_position);
-			// printf("last cmd : %s \n", config->cmd_line[config->last_cmd_position]);		
-			single_right(config);
-		}		
+			printf("red mode on single\n");
+			return(single_right(config));	
+		}
+		printf("single mode \n");		
+		return(cmd_single(config));
 	}
 	
-	return (1);
+	return (0);
 }
 
 
