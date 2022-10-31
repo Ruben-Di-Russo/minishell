@@ -33,6 +33,7 @@ void shell_loop(t_cmd *config)
 		// printf("%s args \n", config->cmd_args[0]);
 		// printf("%s value \n", config->cmd_value[0]);
 		// status = 1;
+		
   }
 }
 
@@ -83,22 +84,23 @@ int cmd_single(t_cmd *config){
 }
 
 int cmd_execute(t_cmd *config){
-	printf("val of red : %d \n", config->red);
-	printf("val of pipe : %d \n", config->npipe);
-	if(config->npipe > 0){
-		pipe_execute(config);
-	}
+
+
 	if(config->red > 0){
 		printf("redddddddddddd \n");
-		printf("red dec : %d \n", config->red);
 		printf("last  : %d \n", config->last_cmd_position);
 		single_right(config);
 	}
-	printf("val of pipe pre single : %d \n", config->npipe);
-	if(config->npipe == 0 && config->red == 0) {
+	else if(config->npipe > 0){
+		pipe_execute(config);
+		printf("red val  : %d \n", config->red);
+	}
+	//printf("val of pipe pre single : %d \n", config->npipe);
+	else {
 		printf("singleeeeeeeeeeeeee \n");
 		cmd_single(config);
 	}
+	ft_clean(config);
 	return (1);
 }
 

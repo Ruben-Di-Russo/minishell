@@ -72,6 +72,7 @@ char **cmd_parser(t_cmd *config, char *line)
     config->num_cmd = 1;
     x = 0;
     o = 0;
+
     while(line[x])
     {
         while(o < 3)
@@ -81,20 +82,23 @@ char **cmd_parser(t_cmd *config, char *line)
                 config->num_cmd++;
                 if(line[x] == config->operator[0]) 
                     config->npipe++; 
-                if(line[x] == config->operator[1]) 
+                if(line[x] == config->operator[1]){
                     config->red = 1;
-                if(line[x + 1] == config->operator[1]) 
-                    config->red = 2;
-                if(line[x] == config->operator[2]) 
+                    if(line[x - 1] == config->operator[1])
+                        config->red = 2;
+                }
+                if(line[x] == config->operator[2]){
                     config->red = 3;
-                if(line[x + 1] == config->operator[2]) 
-                    config->red = 4;                  
+                    if(line[x - 1] == config->operator[2])
+                        config->red = 4;
+                }                               
             }
             o++;
         }
         o = 0;
         x++;
     }
+
     config->cmd_parser = malloc(sizeof (char*) * (config->num_cmd + 1));
     y = 0;
     x = 0;

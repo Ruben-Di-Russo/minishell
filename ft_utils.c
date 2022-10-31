@@ -9,6 +9,17 @@ char **builtin_str(void)
     return (str);    
 }
 
+
+void  ft_clean(t_cmd *config){
+  printf("start cleaning ... \n");
+  config->red = 0;
+  config->npipe = 0;
+  free(config->cmd_line);
+  free(config->cmd_args);
+  free(config->cmd_value);
+  free(config->cmd_parser);
+}
+
 char *operator(void)
 {
     char *op;
