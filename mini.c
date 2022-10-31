@@ -82,7 +82,14 @@ int cmd_execute(t_cmd *config){
 	if(config->npipe > 0){
 		if(config->red > 0){	
 			printf("red mode on pip  \n");
-			return (single_right(config));
+			if(config->red == 1)// single >
+				return (single_right(config));
+			if(config->red == 2)// single >>
+				return (double_right(config));
+			if(config->red == 3)// single <
+				return (single_right(config));
+			if(config->red == 4)// single <<
+				return (single_right(config));								
 		}
 		printf("pipe mode \n");
 		return (pipe_execute(config));

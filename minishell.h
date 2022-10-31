@@ -54,6 +54,7 @@ char	*ft_pathfinder(char *cmd, char **envp);
 int	    free_matrix(char **matrix);
 char    *read_line(t_cmd *config);
 
+int     double_right(t_cmd *config);
 int     single_right(t_cmd *config);
 char    *operator(void);
 int     cmd_execute(t_cmd *config);
