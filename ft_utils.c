@@ -14,6 +14,7 @@ void  ft_clean(t_cmd *config){
   printf("start cleaning ... \n");
   config->red = 0;
   config->npipe = 0;
+  config->last_cmd_position = 0;
   free(config->cmd_line);
   free(config->cmd_args);
   free(config->cmd_value);
@@ -154,6 +155,7 @@ int cmd_cd(char **args)
 
 int cmd_exit(char **args)
 {
+  printf("exit /n");
   (void)args;
   return 0;
 }

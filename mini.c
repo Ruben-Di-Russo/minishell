@@ -18,7 +18,6 @@ char *read_line(t_cmd *config)
 void shell_loop(t_cmd *config)
 {  
   int status;
-
   status = 1;
 
   while(status) 
@@ -26,14 +25,9 @@ void shell_loop(t_cmd *config)
     config->line = read_line(config);
 
 	    cmd_parser(config, config->line);
-		// printf("%s \n", config->cmd_parser[0]);
 		cmd_fill(config);
-		status = cmd_prepare(config);
-		// printf("%s cmd \n", config->cmd_line[0]);
-		// printf("%s args \n", config->cmd_args[0]);
-		// printf("%s value \n", config->cmd_value[0]);
-		// status = 1;
-		
+		cmd_prepare(config);
+		//ft_clean(config);		
   }
 }
 
@@ -85,22 +79,23 @@ int cmd_single(t_cmd *config){
 
 int cmd_execute(t_cmd *config){
 
-
-	if(config->red > 0){
-		printf("redddddddddddd \n");
-		printf("last  : %d \n", config->last_cmd_position);
-		single_right(config);
-	}
-	else if(config->npipe > 0){
+	if(config->npipe > 0){
+		if(config->red > 0){	
+			single_right(config);
+		}
 		pipe_execute(config);
-		printf("red val  : %d \n", config->red);
 	}
 	//printf("val of pipe pre single : %d \n", config->npipe);
 	else {
-		printf("singleeeeeeeeeeeeee \n");
 		cmd_single(config);
+		if(config->red > 0){
+			// printf("redddddddddddd \n");
+			// printf("last id  : %d \n", config->last_cmd_position);
+			// printf("last cmd : %s \n", config->cmd_line[config->last_cmd_position]);		
+			single_right(config);
+		}		
 	}
-	ft_clean(config);
+	
 	return (1);
 }
 
@@ -113,7 +108,6 @@ int cmd_prepare(t_cmd *config)
   if (config->cmd_line[0] == NULL) {
     return 1;
   }
-//   printf("val arg 0 %s : ", config->cmd_args[0]);
   while(i < config->builtin_len){
       if (ft_strcmp(config->cmd_line[0], config->builtin_cmd[i]) == 0) {
         return (builtin_func(config->builtin_cmd[i], &config->cmd_args[0]));

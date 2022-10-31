@@ -10,26 +10,12 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/types.h>
+#include <fcntl.h>
+
 #define SPACE_DELM ' '
 #define PIPE_DELM '|'
 #define DOUBLE_RIGHT_REDIRECTION '>>'
 #define DOUBLE_LEFT_REDIRECTION '<<'
-/*
-typedef struct s_config
-{
-    char    **builtin_cmd;
-    char    **args_cmd;
-    char    *banner;
-    char    *line;
-    char    **envp;
-    int     builtin_len;
-    int     n_pipe;
-    char    **pipe_cmd;
-    int		stdout_clone;
-    int		stdin_clone;
-    char    *tmp;
-} t_config;
-*/
 
 typedef struct s_cmd
 {
@@ -49,6 +35,7 @@ typedef struct s_cmd
     char    *operator;
     int     red;
     int     last_cmd_position;
+    char    *file;
 
 } t_cmd;
 
@@ -76,6 +63,13 @@ int     echo_fill(t_cmd *config, char *line, int i);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strchr(const char *s, int c);
 void    pipe_execute(t_cmd *config);
+
+
+void    red_pipe_execute(int file, t_cmd *config);
+int	    ft_process_red(t_cmd *config, int i);
+
+
+
 char    **args_build(t_cmd *config, int i);
 int	    ft_child_process(t_cmd *config, int i);
 void    ft_clean(t_cmd *config);

@@ -2,9 +2,16 @@
 
 
 int single_right(t_cmd *config){
-    if(config->npipe > 0)
-        config->last_cmd_position += 1;
+    int fd;
+    printf("file : %s \n", config->cmd_line[config->num_cmd - 1 ]);
+    fd = open(config->cmd_line[config->num_cmd - 1 ], O_CREAT | O_TRUNC | O_WRONLY, 0777);
+    if(config->npipe > 0){
+        red_pipe_execute(fd, config);
+        return (1);
+    }
 
-    printf("cmd : %s \n", config->cmd_line[config->last_cmd_position]);
+
+
+    close(fd); 
     return(1);
 }
