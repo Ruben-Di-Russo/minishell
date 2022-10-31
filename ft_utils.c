@@ -9,6 +9,17 @@ char **builtin_str(void)
     return (str);    
 }
 
+char *operator(void)
+{
+    char *op;
+    op = malloc(sizeof(char) * 3 + 1);
+    op[0] = '|';
+    op[1] = '>';
+    op[2] = '<';
+    op[3] = '\0';
+    return (op);    
+}
+
 int	ft_strcmp(char *s1, char *s2)
 {
 	while (*s1 != '\0' && *s2 != '\0')

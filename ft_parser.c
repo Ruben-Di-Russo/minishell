@@ -59,7 +59,6 @@ int echo_fill(t_cmd *t_cmd, char *line, int i)
         t_cmd->cmd_args[i] = NULL;
     }
     t_cmd->cmd_value[i] = ft_strdup(line);
-    //line++;
     return(1);
 }
 
@@ -68,16 +67,32 @@ char **cmd_parser(t_cmd *razzo, char *line)
     char *tmp;
     int x;
     int y;
-    
+    int o;
+
     razzo->num_cmd = 1;
     x = 0;
+    o = 0;
     while(line[x])
     {
-        if (line[x] == '|'){
-            razzo->num_cmd++;
-            if(line[x] == '|')
-                razzo->npipe++;
+        while(o < 3)
+        {
+            if (line[x] == razzo->operator[o])
+            {
+                razzo->num_cmd++;
+                if(line[x] == razzo->operator[0]) 
+                    razzo->npipe++; 
+                if(line[x] == razzo->operator[1]) 
+                    razzo->red = 1;
+                if(line[x + 1] == razzo->operator[1]) 
+                    razzo->red = 2;
+                if(line[x] == razzo->operator[2]) 
+                    razzo->red = 3;
+                if(line[x + 1] == razzo->operator[2]) 
+                    razzo->red = 4;                  
+            }
+            o++;
         }
+        o = 0;
         x++;
     }
     razzo->cmd_parser = malloc(sizeof (char*) * (razzo->num_cmd + 1));
@@ -86,19 +101,26 @@ char **cmd_parser(t_cmd *razzo, char *line)
     razzo->num_cmd = 0;
     tmp = malloc(ft_strlen(line));
     while(line[x])
-    {
-        if (line[x] == '|')
+    {   
+        while(o < 3)
         {
-            tmp[y] = '\0';
-            razzo->cmd_parser[razzo->num_cmd] = ft_strdup(ft_strtrim(tmp, " "));
-            razzo->num_cmd++;
-            x++;
-            y = 0;
-            continue;
+            if (line[x] == razzo->operator[o])
+            {
+                if (line[x + 1 ] == razzo->operator[o])
+                    x++;
+                tmp[y] = '\0';
+                razzo->cmd_parser[razzo->num_cmd] = ft_strdup(ft_strtrim(tmp, " "));
+                razzo->num_cmd++;
+                x++;
+                y = 0;
+                continue;
+            }
+            o++;
         }
         tmp[y] = line[x];
         y++;
         x++;
+        o = 0;
     }
     tmp[y] = '\0';
     razzo->cmd_parser[razzo->num_cmd] = ft_strdup(ft_strtrim(tmp, " "));

@@ -39,11 +39,18 @@ int pipe_execute(t_cmd *config)
     if (pid == -1)
         return (-1);
     if (pid == 0)
-        //printf("stocazzo \n");
         execve(ft_pathfinder(config->cmd_line[i], config->envp), args_build(config, i), config->envp);
     else
         wait(NULL);
     config->npipe = 0;
+	config->last_cmd_position = i;
     dup2(config->stdin_clone, STDIN_FILENO);
+
+	if(config->red > 0){
+		printf("red dec : %d \n", config->red);
+		printf("last  : %d \n", config->last_cmd_position);
+		return(single_right(config));
+	}
+
     return (1);
 }

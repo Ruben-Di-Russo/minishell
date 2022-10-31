@@ -119,6 +119,9 @@ void shell_init(t_cmd *config, char **envp){
   	config->banner = ft_strcat(getenv("USER"), "@minishell>");
 	config->stdout_clone = dup(STDOUT_FILENO);
 	config->stdin_clone = dup(STDIN_FILENO);
+	config->operator = operator();
+	config->last_cmd_position = 0;
+	config->red = 0;
 	
 	
 }

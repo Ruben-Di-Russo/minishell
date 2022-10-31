@@ -14,7 +14,6 @@
 #define PIPE_DELM '|'
 #define DOUBLE_RIGHT_REDIRECTION '>>'
 #define DOUBLE_LEFT_REDIRECTION '<<'
-
 /*
 typedef struct s_config
 {
@@ -47,6 +46,9 @@ typedef struct s_cmd
     int     num_cmd;
     int		stdout_clone;
     int		stdin_clone;
+    char    *operator;
+    int     red;
+    int     last_cmd_position;
 
 } t_cmd;
 
@@ -65,7 +67,8 @@ char	*ft_pathfinder(char *cmd, char **envp);
 int	    free_matrix(char **matrix);
 char    *read_line(t_cmd *config);
 
-
+int     single_right(t_cmd *config);
+char    *operator(void);
 int     cmd_execute(t_cmd *config);
 char    **cmd_parser(t_cmd *razzo, char *line);
 void    cmd_fill(t_cmd *tcmd );

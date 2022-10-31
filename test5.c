@@ -14,6 +14,22 @@ detect operator
 2 red
 
 */
+ls >> cd 
+int ope(char op)
+{    
+    char *cmd;
+    int i;
+
+    cmd = "| > <";
+    i = 0;
+    while(cmd[[i]])
+    {
+        if (cmd[i] == op)
+            return(1)
+    }
+    return(0)
+}
+
 int operator_detector(char *cmd, char *operator){
     int i;
     i = 0;
