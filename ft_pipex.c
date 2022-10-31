@@ -49,7 +49,7 @@ int pipe_execute(t_cmd *config)
 
     return (1);
 }
-void	red_pipe_execute(int file, t_cmd *config)
+int	red_pipe_execute(int file, t_cmd *config)
 {
     int i;
     pid_t   pid;
@@ -63,7 +63,7 @@ void	red_pipe_execute(int file, t_cmd *config)
 	dup2(file, STDOUT_FILENO);
     pid = fork();
     if (pid == -1)
-        return ;
+        return (0);
     if (pid == 0)
         execve(ft_pathfinder(config->cmd_line[i], config->envp), args_build(config, i), config->envp);
     else
@@ -72,4 +72,5 @@ void	red_pipe_execute(int file, t_cmd *config)
 	config->last_cmd_position = i;
     dup2(config->stdin_clone, STDIN_FILENO);
 	dup2(config->stdout_clone, STDOUT_FILENO);
+	return (1);
 }

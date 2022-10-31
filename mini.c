@@ -97,7 +97,14 @@ int cmd_execute(t_cmd *config){
 	else {
 		if(config->red > 0){
 			printf("red mode on single\n");
-			return(single_right(config));	
+			if(config->red == 1)// single >
+				return (single_right(config));
+			if(config->red == 2)// single >>
+				return (double_right(config));
+			if(config->red == 3)// single <
+				return (single_right(config));
+			if(config->red == 4)// single <<
+				return (single_right(config));		
 		}
 		printf("single mode \n");		
 		return(cmd_single(config));

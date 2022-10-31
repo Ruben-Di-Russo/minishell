@@ -66,7 +66,7 @@ char	*ft_strchr(const char *s, int c);
 int     pipe_execute(t_cmd *config);
 
 
-void    red_pipe_execute(int file, t_cmd *config);
+int     red_pipe_execute(int file, t_cmd *config);
 int	    ft_process_red(t_cmd *config, int i);
 
 
