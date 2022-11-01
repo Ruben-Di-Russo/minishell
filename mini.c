@@ -16,18 +16,18 @@ char *read_line(t_cmd *config)
 }
 
 void shell_loop(t_cmd *config)
-{  
+{
   int status;
   status = 1;
 
   while(status) 
   {
-    config->line = read_line(config);
+    	config->line = read_line(config);
 
 	    cmd_parser(config, config->line);
 		cmd_fill(config);
-		cmd_prepare(config);
-		//ft_clean(config);		
+		status = cmd_prepare(config);
+		ft_clean(config);		
   }
 }
 
@@ -83,13 +83,16 @@ int cmd_execute(t_cmd *config){
 		if(config->red > 0){	
 			printf("red mode on pip  \n");
 			if(config->red == 1)// single >
+			{
+				//printf("ciao %d \n", single_right(config));
 				return (single_right(config));
+			}
 			if(config->red == 2)// single >>
 				return (double_right(config));
-			if(config->red == 3)// single <
-				return (single_right(config));
-			if(config->red == 4)// single <<
-				return (single_right(config));								
+			// if(config->red == 3)// single <
+			// 	return (single_right(config));
+			// if(config->red == 4)// single <<
+			// 	return (single_right(config));								
 		}
 		printf("pipe mode \n");
 		return (pipe_execute(config));
@@ -98,7 +101,10 @@ int cmd_execute(t_cmd *config){
 		if(config->red > 0){
 			printf("red mode on single\n");
 			if(config->red == 1)// single >
+			{
+				printf("ciao \n");
 				return (single_right(config));
+			}
 			if(config->red == 2)// single >>
 				return (double_right(config));
 			if(config->red == 3)// single <
@@ -106,8 +112,10 @@ int cmd_execute(t_cmd *config){
 			if(config->red == 4)// single <<
 				return (single_right(config));		
 		}
+		else{
 		printf("single mode \n");		
 		return(cmd_single(config));
+		}
 	}
 	
 	return (0);

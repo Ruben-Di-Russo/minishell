@@ -69,7 +69,7 @@ int     pipe_execute(t_cmd *config);
 int     red_pipe_execute(int file, t_cmd *config);
 int	    ft_process_red(t_cmd *config, int i);
 
-
+int cmd_single(t_cmd *config);
 
 char    **args_build(t_cmd *config, int i);
 int	    ft_child_process(t_cmd *config, int i);
