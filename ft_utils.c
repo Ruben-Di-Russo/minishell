@@ -14,11 +14,29 @@ void  ft_clean(t_cmd *config){
   printf("start cleaning ... \n");
   config->red = 0;
   config->npipe = 0;
-  config->last_cmd_position = 0;
-  free(config->cmd_line);
-  free(config->cmd_args);
-  free(config->cmd_value);
-  free(config->cmd_parser);
+
+  //ft_free_matrix(config->cmd_line);
+  //ft_free_matrix(config->cmd_parser);
+
+  //ft_free_matrix(config->arg_build);
+  //ft_free_matrix(config->cmd_args);
+  //ft_free_matrix(config->cmd_value);
+}
+
+void ft_free_matrix(char **matrix)
+{
+  int i;
+
+  i = 0;
+  while(matrix[i])
+  {
+    if(matrix[i]){
+      free(matrix[i]);
+    }
+    i++;
+  }
+  if (matrix)
+    free(matrix);
 }
 
 char *operator(void)

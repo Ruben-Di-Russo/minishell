@@ -19,12 +19,12 @@
 
 typedef struct s_cmd
 {
+    int     builtin_len;
     char    *line;
     char    **cmd_line;
     char    **cmd_args;
     char    **cmd_value;
     char    **builtin_cmd;
-    int     builtin_len;
     char    **envp;
     int     npipe;
     char    *banner;
@@ -36,6 +36,7 @@ typedef struct s_cmd
     int     red;
     int     last_cmd_position;
     char    *file;
+    char    **arg_build;
 
 } t_cmd;
 
@@ -52,6 +53,7 @@ char	*ft_strdup(const char *s1);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	*ft_pathfinder(char *cmd, char **envp);
 int	    free_matrix(char **matrix);
+void ft_free_matrix(char **matrix);
 char    *read_line(t_cmd *config);
 
 int     double_right(t_cmd *config);

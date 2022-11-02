@@ -130,6 +130,7 @@ char **cmd_parser(t_cmd *config, char *line)
     config->cmd_parser[config->num_cmd] = ft_strdup(ft_strtrim(tmp, " "));
     config->cmd_parser[config->num_cmd + 1] = 0;
     config->num_cmd++;
+    free(tmp);
     return(config->cmd_parser);
 }
 
@@ -179,6 +180,7 @@ while(config->cmd_parser[i])
     }
     i++;
 }
-
+free(tmp);
+ft_free_matrix(tmp2);
 }
 

@@ -38,18 +38,18 @@ int pipe_execute(t_cmd *config)
         i++;
     }
     dup2(config->stdout_clone, STDOUT_FILENO);
+    //close(config->stdout_clone);
     pid = fork();
     if (pid == -1)
         return (0);
+    //dup2()
     if (pid == 0)
         execve(ft_pathfinder(config->cmd_line[i], config->envp), args_build(config, i), config->envp);
     else
         wait(NULL);
     config->npipe = 0;
-	config->last_cmd_position = i;
     dup2(config->stdin_clone, STDIN_FILENO);
-    close(config->stdin_clone);
-
+    //close(config->stdin_clone);
     return (1);
 }
 int	red_pipe_execute(int file, t_cmd *config)
@@ -63,18 +63,19 @@ int	red_pipe_execute(int file, t_cmd *config)
         i++;
     }
     //dup2(config->stdout_clone, STDOUT_FILENO);
+	dup2(file, STDOUT_FILENO);
     pid = fork();
     if (pid == -1)
         return (0);
-	dup2(file, STDOUT_FILENO);
     if (pid == 0)
         execve(ft_pathfinder(config->cmd_line[i], config->envp), args_build(config, i), config->envp);
     else
         wait(NULL);
     config->npipe = 0;
-	config->last_cmd_position = i;
-    close(file);
     dup2(config->stdin_clone, STDIN_FILENO);
 	dup2(config->stdout_clone, STDOUT_FILENO);
+    // close(config->stdout_clone);
+    // close(config->stdin_clone);
+    close(file);
 	return (1);
 }

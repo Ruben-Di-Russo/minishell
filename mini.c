@@ -11,7 +11,7 @@ char *read_line(t_cmd *config)
 	line = readline(config->banner);
   }
   else
-    add_history(line);
+	add_history(line);
     return (line);
 }
 
@@ -23,7 +23,6 @@ void shell_loop(t_cmd *config)
   while(status) 
   {
     	config->line = read_line(config);
-
 	    cmd_parser(config, config->line);
 		cmd_fill(config);
 		status = cmd_prepare(config);
@@ -33,38 +32,34 @@ void shell_loop(t_cmd *config)
 
 
 char **args_build(t_cmd *config, int i){
-char **now;
 int 	x;
 
 x = 0;
-now = malloc(sizeof(char *) * 100);
-now[x] = ft_strdup(config->cmd_line[i]);
+config->arg_build = malloc(sizeof(char *) * 100);
+config->arg_build[x] = ft_strdup(config->cmd_line[i]);
 x++;
 if(config->cmd_args[i])
 {
-now[x] = ft_strdup(config->cmd_args[i]);
+config->arg_build[x] = ft_strdup(config->cmd_args[i]);
 x++;
 }
 if(config->cmd_value[i])
 {
-now[x] = ft_strdup(config->cmd_value[i]);
+config->arg_build[x] = ft_strdup(config->cmd_value[i]);
 x++;
 }
-now[x] = NULL;
+config->arg_build[x] = NULL;
 // printf("%s %s %s %s \n",now [x - 3] ,now[x - 2], now[x - 1], now[x]);
-return(now);
+return(config->arg_build);
 }
 
 int cmd_single(t_cmd *config){
 
 	pid_t pid;
 
-	char **tmp;
-	tmp = args_build(config, 0);
-
 	pid = fork();
 	if(pid == 0) {
-      if(execve(ft_pathfinder(config->cmd_line[0], config->envp), tmp, config->envp)){
+      if(execve(ft_pathfinder(config->cmd_line[0], config->envp), args_build(config, 0), config->envp)){
 			printf("error exec.\n");
 	}
 		exit(EXIT_FAILURE);
@@ -73,8 +68,8 @@ int cmd_single(t_cmd *config){
 	else if(pid > 0) {
 		wait(NULL);
 	}
+	
 	return 1;
-
 }
 
 int cmd_execute(t_cmd *config){
@@ -94,8 +89,10 @@ int cmd_execute(t_cmd *config){
 			// if(config->red == 4)// single <<
 			// 	return (single_right(config));								
 		}
+		else{
 		printf("pipe mode \n");
 		return (pipe_execute(config));
+		}
 	}
 	else {
 		if(config->red > 0){
@@ -106,7 +103,10 @@ int cmd_execute(t_cmd *config){
 				return (single_right(config));
 			}
 			if(config->red == 2)// single >>
+			{
+				printf("ciaaoneee \n");
 				return (double_right(config));
+			}
 			if(config->red == 3)// single <
 				return (single_right(config));
 			if(config->red == 4)// single <<
@@ -148,7 +148,6 @@ void shell_init(t_cmd *config, char **envp){
 	config->stdout_clone = dup(STDOUT_FILENO);
 	config->stdin_clone = dup(STDIN_FILENO);
 	config->operator = operator();
-	config->last_cmd_position = 0;
 	config->red = 0;
 	
 	
