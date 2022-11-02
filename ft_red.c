@@ -9,7 +9,6 @@ int single_right(t_cmd *config){
         return(red_pipe_execute(fd, config));
     }
     dup2(fd, STDOUT_FILENO);
-    printf("hereeee \n");
     cmd_single(config);
     close(fd);
     dup2(config->stdout_clone, STDOUT_FILENO);

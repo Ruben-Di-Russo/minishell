@@ -38,11 +38,9 @@ int pipe_execute(t_cmd *config)
         i++;
     }
     dup2(config->stdout_clone, STDOUT_FILENO);
-    close(config->stdout_clone);
     pid = fork();
     if (pid == -1)
         return (0);
-    //dup2()
     if (pid == 0)
         execve(ft_pathfinder(config->cmd_line[i], config->envp), args_build(config, i), config->envp);
     else

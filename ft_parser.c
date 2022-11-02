@@ -165,7 +165,7 @@ while(config->cmd_parser[i])
         config->cmd_args[i] = NULL;
         config->cmd_value[i] = NULL;
         i++;
-        break;
+        continue;
     }
     config->cmd_line[i] = ft_strdup(tmp2[0]);
     // printf("%s \n", config->cmd_line[i]);
