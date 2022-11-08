@@ -37,9 +37,11 @@ typedef struct s_cmd
     int     last_cmd_position;
     char    *file;
     char    **arg_build;
+    char    **output_red;
 
 } t_cmd;
-
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
 
 char	**ft_split(char const *s, char c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);

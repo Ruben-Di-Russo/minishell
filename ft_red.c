@@ -43,14 +43,32 @@ int single_left(t_cmd *config){
     cmd_single(config);
     close(fd);
     dup2(config->stdin_clone, STDIN_FILENO);    
-    // printf("single left \n");
-    // printf("args : %s \n ", config->cmd_line[config->num_cmd - 1 ]);
-
     return(1);
 }
 
 int double_left(t_cmd *config){
-    (void)config;
-    printf("double left \n");
+    int fd;
+    int st;
+    char *delimiter;
+    char *lines;
+    st = 1;
+    delimiter = config->cmd_line[config->num_cmd - 1 ];
+    fd = open(".tmp", O_CREAT | O_TRUNC | O_WRONLY, 0777);
+    while( st )  {
+        lines = readline(">");
+        if(ft_strcmp(lines, delimiter) == 0){
+            st = 0;
+            break;
+        }
+        ft_putstr_fd(lines, fd);
+        ft_putchar_fd('\n', fd);
+
+    }
+    close(fd);
+    fd = open(".tmp", O_RDONLY);
+    dup2(fd, STDIN_FILENO);
+    cmd_single(config);
+    close(fd);
+    dup2(config->stdin_clone, STDIN_FILENO);
     return(1);
 }
