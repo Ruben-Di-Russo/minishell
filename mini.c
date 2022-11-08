@@ -84,10 +84,10 @@ int cmd_execute(t_cmd *config){
 			}
 			if(config->red == 2)// single >>
 				return (double_right(config));
-			// if(config->red == 3)// single <
-			// 	return (single_right(config));
-			// if(config->red == 4)// single <<
-			// 	return (single_right(config));								
+			if(config->red == 3)// single <
+				return (single_left(config));
+			if(config->red == 4)// single <<
+				return (double_left(config));								
 		}
 		else{
 		printf("pipe mode \n");
@@ -99,18 +99,16 @@ int cmd_execute(t_cmd *config){
 			printf("red mode on single\n");
 			if(config->red == 1)// single >
 			{
-				printf("ciao \n");
 				return (single_right(config));
 			}
 			if(config->red == 2)// single >>
 			{
-				printf("ciaaoneee \n");
 				return (double_right(config));
 			}
 			if(config->red == 3)// single <
-				return (single_right(config));
+				return (single_left(config));
 			if(config->red == 4)// single <<
-				return (single_right(config));		
+				return (double_left(config));		
 		}
 		else{
 		printf("single mode \n");		

@@ -35,3 +35,22 @@ int double_right(t_cmd *config){
     dup2(config->stdout_clone, STDOUT_FILENO);
     return(1);
 }
+
+int single_left(t_cmd *config){
+    int fd;
+    fd = open(config->cmd_line[config->num_cmd - 1 ], O_RDONLY);
+    dup2(fd, STDIN_FILENO);
+    cmd_single(config);
+    close(fd);
+    dup2(config->stdin_clone, STDIN_FILENO);    
+    // printf("single left \n");
+    // printf("args : %s \n ", config->cmd_line[config->num_cmd - 1 ]);
+
+    return(1);
+}
+
+int double_left(t_cmd *config){
+    (void)config;
+    printf("double left \n");
+    return(1);
+}

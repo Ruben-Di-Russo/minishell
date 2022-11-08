@@ -58,6 +58,11 @@ char    *read_line(t_cmd *config);
 
 int     double_right(t_cmd *config);
 int     single_right(t_cmd *config);
+
+int single_left(t_cmd *config);
+int double_left(t_cmd *config);
+
+
 char    *operator(void);
 int     cmd_execute(t_cmd *config);
 char    **cmd_parser(t_cmd *config, char *line);
