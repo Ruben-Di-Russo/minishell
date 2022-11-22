@@ -43,6 +43,8 @@ typedef struct s_cmd
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 
+int builtin_exec(t_cmd *config);
+
 char	**ft_split(char const *s, char c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
@@ -63,6 +65,8 @@ int     single_right(t_cmd *config);
 
 int single_left(t_cmd *config);
 int double_left(t_cmd *config);
+int ft_check(t_cmd *config);
+int ft_check_pipe(t_cmd *config, int i);
 
 
 char    *operator(void);

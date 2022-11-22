@@ -14,7 +14,7 @@ int	ft_child_process(t_cmd *config, int i)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
-		execve(ft_pathfinder(config->cmd_line[i], config->envp), args_build(config, i), config->envp);
+		ft_check_pipe(config, i);
         
 	}
 	else
@@ -44,7 +44,7 @@ int pipe_execute(t_cmd *config)
         return (0);
     //dup2()
     if (pid == 0)
-        execve(ft_pathfinder(config->cmd_line[i], config->envp), args_build(config, i), config->envp);
+        ft_check_pipe(config, i);
     else
         wait(NULL);
     config->npipe = 0;
@@ -68,7 +68,7 @@ int	red_pipe_execute(int file, t_cmd *config)
     if (pid == -1)
         return (0);
     if (pid == 0)
-        execve(ft_pathfinder(config->cmd_line[i], config->envp), args_build(config, i), config->envp);
+        ft_check_pipe(config, i);
     else
         wait(NULL);
     config->npipe = 0;

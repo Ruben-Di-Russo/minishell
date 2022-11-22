@@ -32,34 +32,36 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 int echo_fill(t_cmd *config, char *line, int i)
 {
+
     int count;
     char *e;
     char *value;
-    value = "-n";
-    e = "echo";
+    value = ft_strdup("-n");
+    e = ft_strdup("echo");
     count = 0;
     while(line[0] != ' ')
     {
         line++;
     }
     line++;
-    config->cmd_line[i] = ft_strdup(e);
+    config->cmd_line[i] = strdup(e);
+    line = ft_strtrim(line, " ");
     if (line[count] == '-')
     {
         line++;
         line++;
         line++;
-        while(line[count] == ' '){
-            line++;
-        }
-        config->cmd_args[i] = ft_strdup(value);
+        config->cmd_args[i] = strdup(value);
+        line = ft_strtrim(line, " ");
     }
     else
     {
-        config->cmd_args[i] = NULL;
+        config->cmd_args[i] = 0;
     }
-    config->cmd_value[i] = ft_strdup(line);
+    config->cmd_value[i] = strdup(line);
+
     return(1);
+    
 }
 
 char **cmd_parser(t_cmd *config, char *line)
@@ -73,6 +75,7 @@ char **cmd_parser(t_cmd *config, char *line)
     x = 0;
     o = 0;
 
+    
     while(line[x])
     {
         while(o < 3)
@@ -155,8 +158,10 @@ while(config->cmd_parser[i])
     tmp = ft_strdup(config->cmd_parser[i]);
     if(tmp[0] == 'e' && tmp[1] == 'c')
     {
+
         echo_fill(config, tmp, i);
         i++;
+        free(tmp);
         continue;
     }
     tmp2 = ft_split(tmp, ' ');
@@ -179,8 +184,10 @@ while(config->cmd_parser[i])
         config->cmd_value[i] = ft_strdup(tmp2[2]);
     }
     i++;
+    free(tmp);
+    free_matrix(tmp2);
 }
-free(tmp);
-ft_free_matrix(tmp2);
+
+//ft_free_matrix(tmp2);
 }
 

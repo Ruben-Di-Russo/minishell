@@ -59,7 +59,7 @@ int cmd_single(t_cmd *config){
 
 	pid = fork();
 	if(pid == 0) {
-      if(execve(ft_pathfinder(config->cmd_line[0], config->envp), args_build(config, 0), config->envp)){
+      if(ft_check(config)){
 			printf("error exec.\n");
 	}
 		exit(EXIT_FAILURE);
@@ -128,6 +128,7 @@ int cmd_prepare(t_cmd *config)
   if (config->cmd_line[0] == NULL) {
     return 1;
   }
+  
   while(i < config->builtin_len){
       if (ft_strcmp(config->cmd_line[0], config->builtin_cmd[i]) == 0) {
         return (builtin_func(config->builtin_cmd[i], &config->cmd_args[0]));

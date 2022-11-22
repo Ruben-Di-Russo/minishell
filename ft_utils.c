@@ -1,5 +1,35 @@
 #include "minishell.h"
 
+int ft_check(t_cmd *config)
+{
+  if (config->cmd_line[0][0] == '/')
+  {
+    execve(config->cmd_line[0], args_build(config, 0), config->envp);
+    return(1);
+  }
+  else
+  {
+    execve(ft_pathfinder(config->cmd_line[0], config->envp), args_build(config, 0), config->envp);
+    return(1);
+  }
+  return(0);
+}
+
+int ft_check_pipe(t_cmd *config, int i)
+{
+  if (config->cmd_line[i][0] == '/')
+  {
+    execve(config->cmd_line[i], args_build(config, i), config->envp);
+    return(1);
+  }
+  else
+  {
+    execve(ft_pathfinder(config->cmd_line[i], config->envp), args_build(config, i), config->envp);
+    return(1);
+  }
+  return(0);
+}
+
 char **builtin_str(void)
 {
     char *cmd;
