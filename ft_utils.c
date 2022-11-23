@@ -34,7 +34,7 @@ char **builtin_str(void)
 {
     char *cmd;
     char **str;
-    cmd = "cd exit help";
+    cmd = "cd exit export";
     str = ft_split(cmd, (char)SPACE_DELM);
     return (str);    
 }
@@ -45,12 +45,11 @@ void  ft_clean(t_cmd *config){
   config->red = 0;
   config->npipe = 0;
 
-  //ft_free_matrix(config->cmd_line);
-  //ft_free_matrix(config->cmd_parser);
-
-  //ft_free_matrix(config->arg_build);
-  //ft_free_matrix(config->cmd_args);
-  //ft_free_matrix(config->cmd_value);
+  ft_free_matrix(config->cmd_parser);
+  ft_free_matrix(config->cmd_line);
+  ft_free_matrix(config->arg_build);
+  ft_free_matrix(config->cmd_args);
+  ft_free_matrix(config->cmd_value);
 }
 
 void ft_free_matrix(char **matrix)
@@ -58,6 +57,8 @@ void ft_free_matrix(char **matrix)
   int i;
 
   i = 0;
+  if (!matrix)
+    return ;
   while(matrix[i])
   {
     if(matrix[i]){
@@ -65,8 +66,7 @@ void ft_free_matrix(char **matrix)
     }
     i++;
   }
-  if (matrix)
-    free(matrix);
+
 }
 
 char *operator(void)
@@ -104,13 +104,14 @@ void ft_argv_print(char **argv, char *type)
     i++;
   }
 }
-int builtin_func(char *cmd, char **args){
+int builtin_func(char *cmd, char **args,t_cmd *config){
   if (ft_strcmp(cmd, "cd") == 0){
-    // printf("%s args \n", args[0]);
     return (cmd_cd(args));
   }
+  else if (ft_strcmp(cmd, "export") == 0)
+    return (ft_export(args, config));
   else if (ft_strcmp(cmd, "exit") == 0)
-    return (cmd_exit(args));
+    return (cmd_exit(args, config));
   return (0);
 }
 
@@ -201,9 +202,9 @@ int cmd_cd(char **args)
   return 1;
 }
 
-int cmd_exit(char **args)
+int cmd_exit(char **args, t_cmd *config)
 {
-  printf("exit /n");
-  (void)args;
-  return 0;
+  //ft_clean(config);
+  ft_free_matrix(config->envp);
+  exit(0);
 }

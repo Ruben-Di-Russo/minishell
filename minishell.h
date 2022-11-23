@@ -92,14 +92,19 @@ int     cmd_execute(t_cmd *config);
 int     cmd_prepare(t_cmd *config);
 
 int     cmd_cd(char **args);
-int     cmd_exit(char **args);
+int     cmd_exit(char **args, t_cmd *config);
 
 void ft_argv_print(char **argv, char *type);
 int len_num_builtins(char **builtin_str);
 char **builtin_str(void);
-int  builtin_func(char *cmd, char **args);
+int  builtin_func(char *cmd, char **args, t_cmd *config);
 
 
 void shell_init(t_cmd *config, char **envp);
 void shell_loop(t_cmd *config);
+
+int ft_export(char **args, t_cmd *config);
+int	ft_isdigit(int c);
+
+int ft_matrix_len(char **mtx);
 #endif
