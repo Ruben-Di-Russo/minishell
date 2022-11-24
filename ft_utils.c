@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+
 int ft_check(t_cmd *config)
 {
   if (config->cmd_line[0][0] == '/')
@@ -34,7 +35,7 @@ char **builtin_str(void)
 {
     char *cmd;
     char **str;
-    cmd = "cd exit export";
+    cmd = "cd exit export unset";
     str = ft_split(cmd, (char)SPACE_DELM);
     return (str);    
 }
@@ -112,6 +113,8 @@ int builtin_func(char *cmd, char **args,t_cmd *config){
     return (ft_export(args, config));
   else if (ft_strcmp(cmd, "exit") == 0)
     return (cmd_exit(args, config));
+  else if (ft_strcmp(cmd, "unset") == 0)
+    return (cmd_unset(args, config));    
   return (0);
 }
 
@@ -207,4 +210,9 @@ int cmd_exit(char **args, t_cmd *config)
   //ft_clean(config);
   ft_free_matrix(config->envp);
   exit(0);
+}
+
+int cmd_unset(char **args, t_cmd *config)
+{
+  return(ft_unset(args, config));
 }

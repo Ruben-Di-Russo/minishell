@@ -13,7 +13,7 @@ int ft_ciack(char *tmp)
     int x;
 
     x = 0;
-    while(tmp[x] != '=')
+    while(tmp[x] != '=' && tmp[x])
     {
         if(!ft_isalpha(tmp[x]) && !ft_isdigit(tmp[x]))
             return(1);
@@ -67,6 +67,44 @@ int ft_export(char **args, t_cmd *config)
     while(tmp[i]){
         if(!ft_isdigit(tmp[i][0]) && !ft_ciack(tmp[i]))
             config->envp = ft_append(config , tmp[i]);
+        else 
+            status = 1;
+        i++;
+    }
+    if (status)
+        printf("errore");
+    return(status);
+}
+
+void ft_checkunset(t_cmd *config, char *str)
+{
+    int i;
+
+    i = -1;
+    while(config->envp[++i])
+    {
+        if(ft_strncmp(config->envp[i], str, ft_strlen(str)) == 0){
+            free(config->envp[i]);
+            while(config->envp[i + 1]){
+                config->envp[i] = config->envp[i+1];
+                i++;
+            }
+            config->envp[i] = 0;
+        }
+    }
+}
+int ft_unset(char **args, t_cmd *config)
+{
+    char **tmp;
+    int status;
+    int i;
+
+    tmp = ft_split(config->cmd_parser[0], ' ');
+    i = 1;
+    status = 0;
+    while(tmp[i]){
+        if(!ft_isdigit(tmp[i][0]) && !ft_ciack(tmp[i]))
+            ft_checkunset(config , tmp[i]);
         else 
             status = 1;
         i++;

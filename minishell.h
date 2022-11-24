@@ -107,4 +107,7 @@ int ft_export(char **args, t_cmd *config);
 int	ft_isdigit(int c);
 
 int ft_matrix_len(char **mtx);
+int ft_unset(char **args, t_cmd *config);
+int cmd_unset(char **args, t_cmd *config);
+
 #endif
