@@ -5,13 +5,13 @@ int ft_check(t_cmd *config)
 {
   if (config->cmd_line[0][0] == '/')
   {
-    execve(config->cmd_line[0], args_build(config, 0), config->envp);
-    return(1);
+	execve(config->cmd_line[0], args_build(config, 0), config->envp);
+	return(1);
   }
   else
   {
-    execve(ft_pathfinder(config->cmd_line[0], config->envp), args_build(config, 0), config->envp);
-    return(1);
+	execve(ft_pathfinder(config->cmd_line[0], config->envp), args_build(config, 0), config->envp);
+	return(1);
   }
   return(0);
 }
@@ -20,24 +20,24 @@ int ft_check_pipe(t_cmd *config, int i)
 {
   if (config->cmd_line[i][0] == '/')
   {
-    execve(config->cmd_line[i], args_build(config, i), config->envp);
-    return(1);
+	execve(config->cmd_line[i], args_build(config, i), config->envp);
+	return(1);
   }
   else
   {
-    execve(ft_pathfinder(config->cmd_line[i], config->envp), args_build(config, i), config->envp);
-    return(1);
+	execve(ft_pathfinder(config->cmd_line[i], config->envp), args_build(config, i), config->envp);
+	return(1);
   }
   return(0);
 }
 
 char **builtin_str(void)
 {
-    char *cmd;
-    char **str;
-    cmd = "cd exit export unset";
-    str = ft_split(cmd, (char)SPACE_DELM);
-    return (str);    
+	char *cmd;
+	char **str;
+	cmd = "cd exit export unset";
+	str = ft_split(cmd, (char)SPACE_DELM);
+	return (str);    
 }
 
 
@@ -48,9 +48,11 @@ void  ft_clean(t_cmd *config){
 
   ft_free_matrix(config->cmd_parser);
   ft_free_matrix(config->cmd_line);
-  ft_free_matrix(config->arg_build);
+//   ft_free_matrix(config->arg_build);
   ft_free_matrix(config->cmd_args);
   ft_free_matrix(config->cmd_value);
+//   free(config->builtin_cmd);
+//   free(config->operator);
 }
 
 void ft_free_matrix(char **matrix)
@@ -59,26 +61,25 @@ void ft_free_matrix(char **matrix)
 
   i = 0;
   if (!matrix)
-    return ;
+	return ;
   while(matrix[i])
   {
-    if(matrix[i]){
-      free(matrix[i]);
-    }
-    i++;
+	if(matrix[i]){
+	  free(matrix[i]);
+	}
+	i++;
   }
-
 }
 
 char *operator(void)
 {
-    char *op;
-    op = malloc(sizeof(char) * 3 + 1);
-    op[0] = '|';
-    op[1] = '>';
-    op[2] = '<';
-    op[3] = '\0';
-    return (op);    
+	char *op;
+	op = malloc(sizeof(char) * 3 + 1);
+	op[0] = '|';
+	op[1] = '>';
+	op[2] = '<';
+	op[3] = '\0';
+	return (op);    
 }
 
 int	ft_strcmp(char *s1, char *s2)
@@ -97,24 +98,26 @@ int	ft_strcmp(char *s1, char *s2)
 	}
 	return (*s1 - *s2);
 }
+
 void ft_argv_print(char **argv, char *type)
 {
   int i = 0;
   while (argv[i]){
-    printf("%s argv print id %d : %s \n",type, i, argv[i]);
-    i++;
+	printf("%s argv print id %d : %s \n",type, i, argv[i]);
+	i++;
   }
 }
+
 int builtin_func(char *cmd, char **args,t_cmd *config){
   if (ft_strcmp(cmd, "cd") == 0){
-    return (cmd_cd(args));
+	return (cmd_cd(args));
   }
   else if (ft_strcmp(cmd, "export") == 0)
-    return (ft_export(args, config));
+	return (ft_export(args, config));
   else if (ft_strcmp(cmd, "exit") == 0)
-    return (cmd_exit(args, config));
+	return (cmd_exit(args, config));
   else if (ft_strcmp(cmd, "unset") == 0)
-    return (cmd_unset(args, config));    
+	return (cmd_unset(args, config));    
   return (0);
 }
 
@@ -161,29 +164,31 @@ int	free_matrix(char **matrix)
 
 char *split_to_line(char **str){
 	  int i;
-    int count;
-    char *line;
-    i = 0;
-    count = 0;
-    while (str[i] != '\0'){
-        count += ft_strlen(str[i]);
-        i++;
-    }
-    line = malloc( sizeof(char) * count + 1 );
-    i = 0;
-    while(str[i]){
-        ft_strcat(line, str[i]);
-        i++;
-    }
-    line[count] = '\0';
-    return(line); 
+	int count;
+	char *line;
+	i = 0;
+	count = 0;
+	while (str[i] != '\0'){
+		count += ft_strlen(str[i]);
+		i++;
+	}
+	line = malloc( sizeof(char) * count + 1 );
+	i = 0;
+	while(str[i]){
+		ft_strcat(line, str[i]);
+		i++;
+	}
+	line[count] = '\0';
+	return(line); 
 }
 
-int len_num_builtins(char **builtin_str) {
+int len_num_builtins(char **builtin_str)
+{
   int i;
   i = 0;
-  while(builtin_str[i]){
-    i++;
+  while(builtin_str[i])
+  {
+	i++;
   }
   return (i);
 }
@@ -194,21 +199,29 @@ int len_num_builtins(char **builtin_str) {
 int cmd_cd(char **args)
 {
   // printf("val : %s \n", args[1]);
-  if (args[0] == NULL) {
-    fprintf(stderr, "expected argument to \"cd\"\n");
+  if (args[0] == NULL)
+  {
+	fprintf(stderr, "expected argument to \"cd\"\n");
   } 
   else {
-    if (chdir(args[0]) != 0) {
-      perror("shell");
-    }
+	if (chdir(args[0]) != 0) {
+	  perror("shell");
+	}
   }
   return 1;
 }
 
 int cmd_exit(char **args, t_cmd *config)
 {
-  //ft_clean(config);
+  ft_clean(config);
   ft_free_matrix(config->envp);
+  ft_free_matrix(config->cmd_line);
+//   ft_free_matrix(config->arg_build);
+  free(config->cmd_parser);
+  free(config->cmd_args);
+  free(config->cmd_value);
+  free(config->builtin_cmd);
+  free(config->operator);
   exit(0);
 }
 

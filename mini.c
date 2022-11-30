@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char *read_line(t_cmd *config)
+char	*read_line(t_cmd *config)
 {
 	char *line;
 	line = readline(config->banner);
@@ -151,18 +151,18 @@ int cmd_prepare(t_cmd *config)
 char **ft_set_envp(char **envp)
 {
 	char **env_copy;
-    int i;
+	int i;
 
-    i = 0;
-    env_copy = malloc((ft_matrix_len(envp) + 2) * 8);
-    while(envp[i])
-    {
-        env_copy[i] = ft_strdup(envp[i]);
-        i++;
-    }
-    env_copy[i] = 0;
+	i = 0;
+	env_copy = malloc((ft_matrix_len(envp) + 2) * 8);
+	while(envp[i])
+	{
+		env_copy[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	env_copy[i] = 0;
 
-    return (env_copy);
+	return (env_copy);
 }
 void shell_init(t_cmd *config, char **envp)
 {
@@ -175,6 +175,7 @@ void shell_init(t_cmd *config, char **envp)
 	config->stdout_clone = dup(STDOUT_FILENO);
 	config->stdin_clone = dup(STDIN_FILENO);
 	config->operator= operator();
+	config->index_q = quote_index();
 	config->red = 0;
 }
 

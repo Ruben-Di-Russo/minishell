@@ -19,25 +19,31 @@
 
 typedef struct s_cmd
 {
-    int     builtin_len;
-    char    *line;
-    char    **cmd_line;
-    char    **cmd_args;
-    char    **cmd_value;
-    char    **builtin_cmd;
-    char    **envp;
-    int     npipe;
-    char    *banner;
-    char    **cmd_parser;
-    int     num_cmd;
-    int		stdout_clone;
-    int		stdin_clone;
-    char    *operator;
-    int     red;
-    int     last_cmd_position;
-    char    *file;
-    char    **arg_build;
-    char    **output_red;
+	int	builtin_len;
+	char    *line;
+	char    **cmd_line;
+	char    **cmd_args;
+	char    **cmd_value;
+	char    **builtin_cmd;
+	char    **envp;
+	int     npipe;
+	char    *banner;
+	char    **cmd_parser;
+	int     num_cmd;
+	int		stdout_clone;
+	int		stdin_clone;
+	char    *operator;
+	int     red;
+	int     last_cmd_position;
+	char    *file;
+	char    **arg_build;
+	char    **output_red;
+	int     jump;
+	char    *index_q;
+	int     i;
+	int     t;
+	int     space;
+	int     d;
 
 } t_cmd;
 void	ft_putchar_fd(char c, int fd);
@@ -109,5 +115,9 @@ int	ft_isdigit(int c);
 int ft_matrix_len(char **mtx);
 int ft_unset(char **args, t_cmd *config);
 int cmd_unset(char **args, t_cmd *config);
+char *dollar(t_cmd *config, char *line, int time);
+int	ft_isalpha(int c);
+int check_quotes(t_cmd *config, char *line, int pos);
+char *quote_index(void);
 
 #endif

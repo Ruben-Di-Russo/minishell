@@ -58,8 +58,8 @@ int echo_fill(t_cmd *config, char *line, int i)
     {
         config->cmd_args[i] = 0;
     }
-    config->cmd_value[i] = strdup(line);
-
+    if(check_quotes(config, line, i) == 0)
+        printf("errore quotes\n");
     return(1);
     
 }
