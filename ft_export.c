@@ -73,6 +73,7 @@ int ft_export(char **args, t_cmd *config)
     }
     if (status)
         printf("errore");
+    free_matrix(tmp);
     return(status);
 }
 
@@ -111,5 +112,6 @@ int ft_unset(char **args, t_cmd *config)
     }
     if (status)
         printf("errore");
+    free_matrix(tmp);
     return(status);
 }

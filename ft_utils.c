@@ -3,6 +3,8 @@
 
 int ft_check(t_cmd *config)
 {
+//   char *s[10] = {config->cmd_line[0], config->cmd_args[0], config->cmd_value[0], NULL};
+  
   if (config->cmd_line[0][0] == '/')
   {
 	execve(config->cmd_line[0], args_build(config, 0), config->envp);
@@ -21,11 +23,13 @@ int ft_check_pipe(t_cmd *config, int i)
   if (config->cmd_line[i][0] == '/')
   {
 	execve(config->cmd_line[i], args_build(config, i), config->envp);
+	ft_free_matrix(config->arg_build);
 	return(1);
   }
   else
   {
 	execve(ft_pathfinder(config->cmd_line[i], config->envp), args_build(config, i), config->envp);
+	ft_free_matrix(config->arg_build);
 	return(1);
   }
   return(0);
@@ -45,14 +49,14 @@ void  ft_clean(t_cmd *config){
   printf("start cleaning ... \n");
   config->red = 0;
   config->npipe = 0;
-
+  free(config->line);
   ft_free_matrix(config->cmd_parser);
-  ft_free_matrix(config->cmd_line);
-//   ft_free_matrix(config->arg_build);
-  ft_free_matrix(config->cmd_args);
-  ft_free_matrix(config->cmd_value);
-//   free(config->builtin_cmd);
-//   free(config->operator);
+//   ft_free_matrix(config->cmd_line);
+//   ft_free_matrix(config->cmd_args);
+//   ft_free_matrix(config->cmd_value);
+  free_matrix(config->cmd_value);
+  free_matrix(config->cmd_line);
+  free_matrix(config->cmd_args);
 }
 
 void ft_free_matrix(char **matrix)
@@ -60,7 +64,7 @@ void ft_free_matrix(char **matrix)
   int i;
 
   i = 0;
-  if (!matrix)
+  if(!matrix)
 	return ;
   while(matrix[i])
   {
@@ -108,8 +112,10 @@ void ft_argv_print(char **argv, char *type)
   }
 }
 
-int builtin_func(char *cmd, char **args,t_cmd *config){
-  if (ft_strcmp(cmd, "cd") == 0){
+int builtin_func(char *cmd, char **args,t_cmd *config)
+{
+  if (ft_strcmp(cmd, "cd") == 0)
+  {
 	return (cmd_cd(args));
   }
   else if (ft_strcmp(cmd, "export") == 0)
@@ -168,7 +174,7 @@ char *split_to_line(char **str){
 	char *line;
 	i = 0;
 	count = 0;
-	while (str[i] != '\0'){
+	while (str[i] != NULL){
 		count += ft_strlen(str[i]);
 		i++;
 	}
@@ -214,13 +220,12 @@ int cmd_cd(char **args)
 int cmd_exit(char **args, t_cmd *config)
 {
   ft_clean(config);
-  ft_free_matrix(config->envp);
-  ft_free_matrix(config->cmd_line);
-//   ft_free_matrix(config->arg_build);
+//   free(config->cmd_line);
+  free_matrix(config->envp);
   free(config->cmd_parser);
-  free(config->cmd_args);
-  free(config->cmd_value);
-  free(config->builtin_cmd);
+//   free(config->cmd_args);
+//   free(config->cmd_value);
+  free_matrix(config->builtin_cmd);
   free(config->operator);
   exit(0);
 }

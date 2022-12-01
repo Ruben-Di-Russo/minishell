@@ -48,7 +48,6 @@ char **args_build(t_cmd *config, int i)
 		x++;
 	}
 	config->arg_build[x] = NULL;
-	// printf("%s %s %s %s \n",now [x - 3] ,now[x - 2], now[x - 1], now[x]);
 	return (config->arg_build);
 }
 
@@ -70,7 +69,6 @@ int cmd_single(t_cmd *config)
 	{
 		wait(NULL);
 	}
-
 	return 1;
 }
 
@@ -81,12 +79,8 @@ int cmd_execute(t_cmd *config)
 	{
 		if (config->red > 0)
 		{
-			printf("red mode on pip  \n");
 			if (config->red == 1) // single >
-			{
-				// printf("ciao %d \n", single_right(config));
 				return (single_right(config));
-			}
 			if (config->red == 2) // single >>
 				return (double_right(config));
 			if (config->red == 3) // single <
@@ -95,16 +89,12 @@ int cmd_execute(t_cmd *config)
 				return (double_left(config));
 		}
 		else
-		{
-			printf("pipe mode \n");
 			return (pipe_execute(config));
-		}
 	}
 	else
 	{
 		if (config->red > 0)
 		{
-			printf("red mode on single\n");
 			if (config->red == 1) // single >
 			{
 				return (single_right(config));
@@ -119,10 +109,7 @@ int cmd_execute(t_cmd *config)
 				return (double_left(config));
 		}
 		else
-		{
-			printf("single mode \n");
 			return (cmd_single(config));
-		}
 	}
 
 	return (0);
@@ -142,7 +129,7 @@ int cmd_prepare(t_cmd *config)
 	{
 		if (ft_strcmp(config->cmd_line[0], config->builtin_cmd[i]) == 0)
 		{
-			return (builtin_func(config->builtin_cmd[i], &config->cmd_args[0], config));
+			return(builtin_func(config->builtin_cmd[i], &config->cmd_args[0], config));
 		}
 		i++;
 	}

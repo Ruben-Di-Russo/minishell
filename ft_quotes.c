@@ -41,6 +41,7 @@ int double_quote(t_cmd *config, char *line, int pos)
                 t++;
                 d++;
             }
+            time++;
             i += config->jump;
             if (!dollaro)
                 space = 1;
@@ -155,8 +156,8 @@ char *dollar(t_cmd *config, char *line, int time)
     pos = 0;
     while(tmp[x][pos] != '\0')
     {
-        if (!(tmp[0][pos] >= 65) && !(tmp[0][pos] <= 90))
-            return(0);
+        if (!(tmp[x][pos] >= 65 && tmp[x][pos] <= 90))
+            return(NULL);
         pos++;
     }
     pos = 0;
@@ -167,10 +168,11 @@ char *dollar(t_cmd *config, char *line, int time)
             dollaro = malloc(ft_strlen(config->envp[pos]) * (sizeof (char)));
             dollarofinito = ft_split(config->envp[pos], '=');
             dollaro = dollarofinito[1];
+            return(dollaro);
         }
         pos++;
     }
-    return(dollaro);
+    return(NULL);
 }
 
 int no_quote(t_cmd *config, char *line, int pos)
@@ -193,6 +195,7 @@ int no_quote(t_cmd *config, char *line, int pos)
     {
         if (line[i] == '$')
         {
+            d = 0;
             dollaro = dollar(config, line, time);
             while(dollaro && dollaro[d])
             {
@@ -200,10 +203,11 @@ int no_quote(t_cmd *config, char *line, int pos)
                 t++;
                 d++;
             }
-            i += config->jump;
-            time++;
             if (!dollaro)
                 space = 1;
+            i += config->jump;
+            time++;
+            free(dollaro);
             continue;
         }
         if (space == 0 && ft_isdigit(line[i]))
@@ -219,7 +223,9 @@ int no_quote(t_cmd *config, char *line, int pos)
         t++;
     }
     copy[t + 1] = '\0';
+    free(line);
     config->cmd_value[pos] = ft_strdup(copy);
+    free(copy);
     return (1);
 }
 

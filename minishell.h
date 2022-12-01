@@ -37,7 +37,6 @@ typedef struct s_cmd
 	int     last_cmd_position;
 	char    *file;
 	char    **arg_build;
-	char    **output_red;
 	int     jump;
 	char    *index_q;
 	int     i;
