@@ -43,6 +43,7 @@ int double_quote(t_cmd *config, char *line, int pos)
             }
             time++;
             i += config->jump;
+            free(dollaro);
             if (!dollaro)
                 space = 1;
             continue;
@@ -68,9 +69,11 @@ int double_quote(t_cmd *config, char *line, int pos)
         t++;
     }
     copy[t + 1] = '\0';
+    free(line);
     if ((n % 2) != 0)
         return (0);
     config->cmd_value[pos] = ft_strdup(copy);
+    free(copy);
     return (1);
 }
 
@@ -122,9 +125,11 @@ int single_quote(t_cmd *config, char *line, int pos)
             t++;
     }
     copy[i] = '\0';
+    free(line);
     if ((n % 2) != 0)
         return (0);
     config->cmd_value[pos] = ft_strdup(copy);
+    free(copy);
     return (1);
 }
 
@@ -140,6 +145,7 @@ char *dollar(t_cmd *config, char *line, int time)
     x = 0;
     try = 0;
     tmp = ft_split(line, ' ');
+    free(line);
     while(tmp[x])
     {
         tmp[x] = ft_strtrim(tmp[x], "\"");
@@ -165,13 +171,15 @@ char *dollar(t_cmd *config, char *line, int time)
     {
         if(ft_strncmp(config->envp[pos], tmp[x], ft_strlen(tmp[x])) == 0)
         {
-            dollaro = malloc(ft_strlen(config->envp[pos]) * (sizeof (char)));
             dollarofinito = ft_split(config->envp[pos], '=');
-            dollaro = dollarofinito[1];
+            dollaro = ft_strdup(dollarofinito[1]);
+            free_matrix(dollarofinito);
+            free_matrix(tmp);
             return(dollaro);
         }
         pos++;
     }
+    free_matrix(tmp);
     return(NULL);
 }
 
@@ -222,8 +230,8 @@ int no_quote(t_cmd *config, char *line, int pos)
         i++;
         t++;
     }
-    copy[t + 1] = '\0';
-    free(line);
+    copy[t] = '\0';
+    // free(line);
     config->cmd_value[pos] = ft_strdup(copy);
     free(copy);
     return (1);
@@ -249,5 +257,6 @@ int check_quotes(t_cmd *config, char *line, int pos)
         i++;
     }
     no_quote(config, line, pos);
+    // free(line);
     return(1);
 }

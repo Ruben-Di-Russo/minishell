@@ -37,9 +37,14 @@ char **args_build(t_cmd *config, int i)
 	config->arg_build = malloc(sizeof(char *) * 100);
 	config->arg_build[x] = ft_strdup(config->cmd_line[i]);
 	x++;
-	if (config->cmd_args[i])
+	if (config->cmd_args[i] && (ft_strcmp(config->cmd_args[i],"NULLO")))
 	{
 		config->arg_build[x] = ft_strdup(config->cmd_args[i]);
+		x++;
+	}
+	else if ((config->cmd_args[i] && !(ft_strcmp(config->cmd_args[i],"NULLO"))))
+	{
+		config->arg_build[x] = NULL;
 		x++;
 	}
 	if (config->cmd_value[i])
@@ -65,9 +70,10 @@ int cmd_single(t_cmd *config)
 		}
 		exit(EXIT_FAILURE);
 	}
-	else if (pid > 0)
+	// if (pid > 0)
+	else
 	{
-		wait(NULL);
+		waitpid(- 1, NULL, 0);
 	}
 	return 1;
 }

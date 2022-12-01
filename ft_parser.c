@@ -84,6 +84,7 @@ int echo_fill(t_cmd *config, char *line, int i)
         printf("errore quotes\n");
     free(e);
     free(value);
+    // free(line);
     return(1);
     
 }
@@ -176,9 +177,6 @@ i = 0;
 config->cmd_line = malloc(10000);
 config->cmd_args = malloc(10000);
 config->cmd_value = malloc(10000);
-// config->cmd_line = malloc((config->num_cmd + 1));
-// config->cmd_args = malloc((config->num_cmd + 1));
-// config->cmd_value = malloc((config->num_cmd + 1));
 while(config->cmd_parser[i])
 {
     tmp = config->cmd_parser[i];
@@ -187,15 +185,14 @@ while(config->cmd_parser[i])
 
         echo_fill(config, tmp, i);
         i++;
-        // free(tmp);
         continue;
     }
     tmp2 = ft_split(tmp, ' ');
     if(tmp2[1] == NULL)
     {
         config->cmd_line[i] = ft_strdup(tmp2[0]);
-        config->cmd_args[i] = NULL;
-        config->cmd_value[i] = NULL;
+        config->cmd_args[i] = ft_strdup("NULLO");
+        config->cmd_value[i] = ft_strdup("NULLO");
         i++;
         free_matrix(tmp2);
         continue;
@@ -209,7 +206,9 @@ while(config->cmd_parser[i])
     // free(tmp);
     free_matrix(tmp2);
 }
-
+    config->cmd_line[i] = NULL;
+    config->cmd_args[i] = NULL;
+    config->cmd_value[i] = NULL;
 //ft_free_matrix(tmp2);
 }
 

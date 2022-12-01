@@ -46,7 +46,7 @@ int pipe_execute(t_cmd *config)
     if (pid == 0)
         ft_check_pipe(config, i);
     else
-        wait(NULL);
+        waitpid(-1, NULL, 0);
     config->npipe = 0;
     dup2(config->stdin_clone, STDIN_FILENO);
     //close(config->stdin_clone);

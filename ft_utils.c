@@ -50,7 +50,7 @@ void  ft_clean(t_cmd *config){
   config->red = 0;
   config->npipe = 0;
   free(config->line);
-  ft_free_matrix(config->cmd_parser);
+  free_matrix(config->cmd_parser);
 //   ft_free_matrix(config->cmd_line);
 //   ft_free_matrix(config->cmd_args);
 //   ft_free_matrix(config->cmd_value);
@@ -220,13 +220,14 @@ int cmd_cd(char **args)
 int cmd_exit(char **args, t_cmd *config)
 {
   ft_clean(config);
-//   free(config->cmd_line);
   free_matrix(config->envp);
-  free(config->cmd_parser);
+  free_matrix(config->builtin_cmd);
+//   free(config->cmd_parser);
+//   free(config->cmd_line);
 //   free(config->cmd_args);
 //   free(config->cmd_value);
-  free_matrix(config->builtin_cmd);
   free(config->operator);
+  free(config->index_q);
   exit(0);
 }
 
