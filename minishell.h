@@ -118,5 +118,9 @@ char *dollar(t_cmd *config, char *line, int time);
 int	ft_isalpha(int c);
 int check_quotes(t_cmd *config, char *line, int pos);
 char *quote_index(void);
+char *find_dollar(char *line, int time, t_cmd *config);
+char	*ft_strchr(const char *s, int c);
+char *find_envp(t_cmd *config, char *tmp);
+int	ft_isprint(int c);
 
 #endif

@@ -26,8 +26,8 @@ int double_quote(t_cmd *config, char *line, int pos)
     t = 0;
     time = 0;
     space = 0;
-    // copy = malloc(ft_strlen(line) * 4);
-    copy = malloc(1000);
+    copy = malloc(ft_strlen(line) * 4);
+    // copy = malloc(1000);
 
     while (line[i])
     {
@@ -44,6 +44,7 @@ int double_quote(t_cmd *config, char *line, int pos)
             time++;
             i += config->jump;
             free(dollaro);
+            space = 0;
             if (!dollaro)
                 space = 1;
             continue;
@@ -54,10 +55,16 @@ int double_quote(t_cmd *config, char *line, int pos)
             n++;
             continue;
         }
-        if ((n % 2) == 0 && ft_isalpha(line[i]) == 1)
+        if ((n % 2) == 0 && ft_isprint(line[i]) == 1)
             space = 0;
         else if ((n % 2) == 0 && space == 0)
+        {
+            copy[t] = line[i];
             space++;
+            i++;
+            t++;
+            continue;
+        }
         else if ((n % 2) == 0 && space != 0)
         {
             space++;
@@ -65,11 +72,11 @@ int double_quote(t_cmd *config, char *line, int pos)
             continue;
         }
         copy[t] = line[i];
+        space = 0;
         i++;
         t++;
     }
-    copy[t + 1] = '\0';
-    free(line);
+    copy[t] = '\0';
     if ((n % 2) != 0)
         return (0);
     config->cmd_value[pos] = ft_strdup(copy);
@@ -109,78 +116,28 @@ int single_quote(t_cmd *config, char *line, int pos)
         if ((n % 2) == 0 && space == 0)
         {
             space++;
-                copy[t] = line[i];
-                i++;
-                t++;
-                continue;
-            }
-            if ((n % 2) == 0 && space != 0)
-            {
-                space++;
-                i++;
-                continue;
-            }
             copy[t] = line[i];
             i++;
             t++;
+            continue;
+        }
+        if ((n % 2) == 0 && space != 0)
+        {
+            space++;
+            i++;
+            continue;
+        }
+        space = 0;
+        copy[t] = line[i];
+        i++;
+        t++;
     }
     copy[i] = '\0';
-    free(line);
     if ((n % 2) != 0)
         return (0);
     config->cmd_value[pos] = ft_strdup(copy);
     free(copy);
     return (1);
-}
-
-char *dollar(t_cmd *config, char *line, int time)
-{
-    char **tmp;
-    char *dollaro;
-    char **dollarofinito;
-    int pos;
-    int x;
-    int try;
-
-    x = 0;
-    try = 0;
-    tmp = ft_split(line, ' ');
-    free(line);
-    while(tmp[x])
-    {
-        tmp[x] = ft_strtrim(tmp[x], "\"");
-        if (tmp[x][0] == '$')
-        {
-            if (try == time)
-                break;
-            try++;
-        }
-        x++;
-    }
-    config->jump = ft_strlen(tmp[x]);
-    tmp[x] = ft_strtrim(tmp[x], "$");
-    pos = 0;
-    while(tmp[x][pos] != '\0')
-    {
-        if (!(tmp[x][pos] >= 65 && tmp[x][pos] <= 90))
-            return(NULL);
-        pos++;
-    }
-    pos = 0;
-    while(config->envp[pos])
-    {
-        if(ft_strncmp(config->envp[pos], tmp[x], ft_strlen(tmp[x])) == 0)
-        {
-            dollarofinito = ft_split(config->envp[pos], '=');
-            dollaro = ft_strdup(dollarofinito[1]);
-            free_matrix(dollarofinito);
-            free_matrix(tmp);
-            return(dollaro);
-        }
-        pos++;
-    }
-    free_matrix(tmp);
-    return(NULL);
 }
 
 int no_quote(t_cmd *config, char *line, int pos)
@@ -199,6 +156,8 @@ int no_quote(t_cmd *config, char *line, int pos)
     d = 0;
     space = 0;
     t = 0;
+    // printf("lunghezza : %zu\n", ft_strlen(line));
+    // printf("line : %s \n", line);
     while (line[i])
     {
         if (line[i] == '$')
@@ -215,23 +174,35 @@ int no_quote(t_cmd *config, char *line, int pos)
                 space = 1;
             i += config->jump;
             time++;
+            space = 0;
             free(dollaro);
+            // printf("dollaro : %s \n", copy);
             continue;
         }
-        if (space == 0 && ft_isdigit(line[i]))
+        if (space == 0 && ft_isprint(line[i]) == 0)
+        {
+            copy[t] = line[i];
             space++;
-        else if (space != 0 && ft_isdigit(line[i]))
+            i++;
+            t++;
+            continue;
+        }
+        if (space != 0 && ft_isprint(line[i]) == 0)
         {
             space++;
             i++;
             continue;
         }
         copy[t] = line[i];
+        // space = 0;
+        // printf("giro : %d \n", i);
         i++;
         t++;
     }
     copy[t] = '\0';
     // free(line);
+    // printf("copia : %s \n", copy);
+    // printf("giro : %d \n", i);
     config->cmd_value[pos] = ft_strdup(copy);
     free(copy);
     return (1);
@@ -247,16 +218,18 @@ int check_quotes(t_cmd *config, char *line, int pos)
         if (line[i] == config->index_q[0])
         {
             double_quote(config, line, pos);
+            free(line);
             return(1);
         }
         else if (line[i] == config->index_q[1])
         {
             single_quote(config, line, pos);
+            free(line);
             return(1);
         }
         i++;
     }
     no_quote(config, line, pos);
-    // free(line);
+    free(line);
     return(1);
 }

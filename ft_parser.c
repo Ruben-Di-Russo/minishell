@@ -95,17 +95,21 @@ char **cmd_parser(t_cmd *config, char *line)
     int x;
     int y;
     int o;
+    int n;
 
     config->num_cmd = 1;
     x = 0;
     o = 0;
+    n = 0;
 
     
     while(line[x])
     {
         while(o < 3)
         {
-            if (line[x] == config->operator[o])
+            if (line[x] == config->index_q[0])
+                n++;
+            if (line[x] == config->operator[o] && (n % 2) == 0)
             {
                 config->num_cmd++;
                 if(line[x] == config->operator[0]) 
@@ -137,7 +141,9 @@ char **cmd_parser(t_cmd *config, char *line)
     {   
         while(o < 3)
         {
-            if (line[x] == config->operator[o])
+            if (line[x] == config->index_q[0])
+                n++;
+            if (line[x] == config->operator[o] && (n % 2) == 0)
             {
                 if (line[x + 1 ] == config->operator[o])
                     x++;

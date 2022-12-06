@@ -53,8 +53,6 @@ char **ft_append(t_cmd *config, char *line)
     return (env_copy);
 }
 
-
-
 int ft_export(char **args, t_cmd *config)
 {
     char **tmp;
@@ -73,7 +71,7 @@ int ft_export(char **args, t_cmd *config)
     }
     if (status)
         printf("errore");
-    free_matrix(tmp);
+    free(tmp[0]);
     return(status);
 }
 
@@ -94,6 +92,7 @@ void ft_checkunset(t_cmd *config, char *str)
         }
     }
 }
+
 int ft_unset(char **args, t_cmd *config)
 {
     char **tmp;
